@@ -77,13 +77,11 @@ button:hover {
 </style>
 
 <script>
-// 날짜 자동 입력
 function autoFillEnd(startId, endId) {
     const start = document.getElementById(startId).value;
     document.getElementById(endId).value = start;
 }
 
-// 제출 처리 (수정 완료 버전)
 function showThankYouMessage(e){
     e.preventDefault();
 
@@ -91,16 +89,18 @@ function showThankYouMessage(e){
     const data = Object.fromEntries(formData.entries());
 
     fetch("https://lkhj.app.n8n.cloud/webhook/monthly-report", {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-})
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
     .then(() => {
         alert("제출되었습니다.");
         e.target.reset();
     })
     .catch(() => {
-        alert("전송 실패. 다시 시도해주세요.");
+        alert("전송 실패");
     });
 }
 </script>
@@ -148,8 +148,8 @@ for(let i=1;i<=5;i++){
 document.write(`
 <div class="contact-row">
 <input type="text" name="name${i}" placeholder="이름">
-<input type="text" name="ext${i}" placeholder="내선번호 (예: 4473-0392)">
-<input type="text" name="phone${i}" placeholder="핸드폰번호 (예: 010-0000-0000)">
+<input type="text" name="ext${i}" placeholder="내선번호">
+<input type="text" name="phone${i}" placeholder="핸드폰번호">
 <input type="text" name="job${i}" placeholder="직무">
 <select name="status${i}">
 <option value="추가">추가</option>
